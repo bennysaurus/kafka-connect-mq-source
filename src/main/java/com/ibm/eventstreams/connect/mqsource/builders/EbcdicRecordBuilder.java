@@ -61,7 +61,8 @@ public class EbcdicRecordBuilder extends BaseRecordBuilder {
         Schema valueSchema = null;
         Object value = null;
 
-        //Ben Nunns - either way we want to take the message, format as a string and plop that on the topic. None of this bytes business.
+        //Ben Nunns - hard-coded code-page of 1140 for EBCDIC. Ideally this is pulled out into a config parameter but for use-case life is good.
+        //Requires key and value converters to be StringConverter and mq.message.body.jms to be true.
 
         // Interpreting the body as a JMS message type, we can accept BytesMessage and TextMessage only.
         // We do not know the schema so do not specify one.
