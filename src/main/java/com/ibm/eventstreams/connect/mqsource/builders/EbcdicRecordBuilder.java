@@ -70,13 +70,16 @@ public class EbcdicRecordBuilder extends BaseRecordBuilder {
                 if (message instanceof BytesMessage) {
                     log.info("Bytes message with no schema, converting to regular String");
                     String messageString = new String(message.getBody(byte[].class), "CP1140");
-                    log.info("Message raw: " + messageString);
+                    log.debug("Message string: " + messageString);
 
                     value = messageString;
                 }
                 else if (message instanceof TextMessage) {
                     log.info("Text message with no schema");
-                    value = new String(message.getBody(String.class).getBytes("CP1140"), "UTF-8");
+                    String messageString = new String(message.getBody(String.class).getBytes(), "CP1140");
+                    log.debug("Message string: " + messageString);
+
+                    value = messageString;
                 }
                 else {
                     log.error("Unsupported JMS message type {}", message.getClass());
@@ -93,6 +96,7 @@ public class EbcdicRecordBuilder extends BaseRecordBuilder {
         }
         catch (UnsupportedEncodingException e) {
             log.error("Unsupported Encoding Exception: " + e.getMessage());
+            throw new ConnectException("Unsupported Encoding Exception: " + e.getMessage());
         }
 
 
